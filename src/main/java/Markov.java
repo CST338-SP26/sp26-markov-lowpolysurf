@@ -22,12 +22,14 @@ public class Markov {
         return "";
     }
 
-    public void addFromFile(String filename){
+    public void addFromFile(String filename){ //calls addLine
 
     }
 
-    void addWord(String word){
-
+    void addWord(String curWord){ //calls endsWithPunctuation
+        if(endsWithPunctuation(prevWord)){
+            words.put(BEGINS_SENTENCE, new ArrayList<>());//TEMP<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        }
     }
 
     String randomWord(String word){
@@ -38,8 +40,13 @@ public class Markov {
         return words;
     }
 
-    void addLine(String line){
-
+    void addLine(String line){ //passes into addWord
+        if(!line.isEmpty()){
+            String[] words = line.split(" ");
+            for(String word : words){
+                addWord(word);
+            }
+        }
     }
 
     public static boolean endsWithPunctuation(String ends){
