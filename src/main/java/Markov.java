@@ -15,12 +15,14 @@ public class Markov {
     Markov(){
         words = new HashMap<>();
         words.put(BEGINS_SENTENCE, new ArrayList<>());
+
+        prevWord = BEGINS_SENTENCE;
     }
     public String getSentence(){
         return "";
     }
 
-    public void addFromFile(String add){
+    public void addFromFile(String filename){
 
     }
 
@@ -40,7 +42,7 @@ public class Markov {
 
     }
 
-    public boolean endsWithPunctuation(String ends){
+    public static boolean endsWithPunctuation(String ends){
         return false;
     }
 
