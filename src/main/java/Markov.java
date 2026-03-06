@@ -1,7 +1,12 @@
 //markov
+//Chase Miranda
+//3/6/26
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Markov {
 
@@ -23,6 +28,16 @@ public class Markov {
     }
 
     public void addFromFile(String filename){ //calls addLine
+        File file = new File(filename);
+        try{
+            Scanner fin = new Scanner(file);
+
+            while(fin.hasNextLine()){
+                addLine(fin.nextLine());
+            }
+        }catch (FileNotFoundException e){
+            System.out.println("file not found");
+        }
 
     }
 
