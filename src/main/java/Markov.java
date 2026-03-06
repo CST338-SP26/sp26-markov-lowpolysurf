@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Markov {
@@ -16,15 +17,26 @@ public class Markov {
     private String prevWord;
     private HashMap<String, ArrayList<String>> words;
 
-    //methods...........................................................................................
+    //constructor.......................................................................................
     Markov(){
         words = new HashMap<>();
         words.put(BEGINS_SENTENCE, new ArrayList<>());
 
         prevWord = BEGINS_SENTENCE;
     }
-    public String getSentence(){
-        return "";
+
+    //methods...........................................................................................
+    public String getSentence(){ //calls randomWord and endsWithPunctuation
+        String curWord = randomWord(BEGINS_SENTENCE);
+        StringBuilder out = new StringBuilder();
+
+        while(!endsWithPunctuation(curWord)){
+            out.append(curWord).append(" ");
+            curWord = randomWord(curWord);
+        }
+        out.append(curWord);
+
+        return out.toString();
     }
 
     public void addFromFile(String filename){ //calls addLine
@@ -43,12 +55,24 @@ public class Markov {
 
     void addWord(String curWord){ //calls endsWithPunctuation
         if(endsWithPunctuation(prevWord)){
-            words.put(BEGINS_SENTENCE, new ArrayList<>());//TEMP<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+            words.get(BEGINS_SENTENCE).add(curWord);
+        }else{
+            if(!words.containsKey(prevWord)){
+                words.put(prevWord, new ArrayList<>());
+                words.get(prevWord).add(curWord);
+            }else{
+                words.get(prevWord).add(curWord);
+            }
         }
+        prevWord = curWord;
     }
 
     String randomWord(String word){
-        return "";
+        ArrayList<String> nextWords = words.get(word);
+        Random r = new Random();
+        int nextIndex = r.nextInt(nextWords.size());
+
+        return nextWords.get(nextIndex);
     }
 
     HashMap<String, ArrayList<String>> getWords(){
@@ -65,11 +89,17 @@ public class Markov {
     }
 
     public static boolean endsWithPunctuation(String ends){
+        char wordLastChar = ends.charAt(ends.length()-1);
+        for(int i = 0; i < PUNCTUATION_MARKS.length(); i++){
+            if(wordLastChar == PUNCTUATION_MARKS.charAt(i)){
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public String toString(){
-        return "";
+        return words.toString();
     }
 }
