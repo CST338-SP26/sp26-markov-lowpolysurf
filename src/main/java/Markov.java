@@ -68,7 +68,8 @@ public class Markov {
     }
 
     String randomWord(String word){
-        ArrayList<String> nextWords = words.get(word);
+        ArrayList<String> nextWords = new ArrayList<>();
+        nextWords = words.get(word);
         Random r = new Random();
         int nextIndex = r.nextInt(nextWords.size());
 
@@ -89,6 +90,10 @@ public class Markov {
     }
 
     public static boolean endsWithPunctuation(String ends){
+        if(ends.isEmpty()){
+            System.out.println("error: word does not exist");
+            return false;
+        }
         char wordLastChar = ends.charAt(ends.length()-1);
         for(int i = 0; i < PUNCTUATION_MARKS.length(); i++){
             if(wordLastChar == PUNCTUATION_MARKS.charAt(i)){
